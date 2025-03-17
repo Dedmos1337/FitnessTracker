@@ -453,7 +453,7 @@ fun Entrace(navController: NavController){
 
 
             Button(
-                onClick = {},
+                onClick = {/**/},
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(4.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6200EE))
