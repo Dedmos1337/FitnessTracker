@@ -1,4 +1,5 @@
-package ru.fefu.fitnesstracker
+package ru.fefu.fitnesstracker.screens
+
 import android.os.Bundle
 import android.widget.Space
 import androidx.compose.foundation.layout.*
@@ -65,16 +66,66 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import kotlinx.coroutines.launch
-import ru.fefu.fitnesstracker.screens.FitnessApp
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            FitnessTrackerTheme {
-                FitnessApp()
-            }
-        }
+@Composable
+fun MainScreen(navController: NavController) {
+    val fontSize = 16.sp
+    val lineHeight = fontSize * 1.5f
+
+    Column(
+        modifier = Modifier.fillMaxSize().background(Color.White),verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+
+    ){
+        Image(
+            painter = painterResource(id = R.drawable.welcomescreenimage),
+            contentDescription = "велосипеды",
+            modifier = Modifier.size(379.dp,335.dp)
+
+        )
+        Spacer(
+            modifier = Modifier.height(32.dp))
+
+        Text(
+            text = "Пожалуй, лучший фитнес трекер в ДВФУ",
+            fontSize = 24.sp,
+            fontWeight = FontWeight(weight = 700),
+            fontFamily = FontFamily.Serif,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.width(376.dp)
+        )
+
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text =  "Созданный студентами",
+            fontWeight = FontWeight(400),
+            fontSize = 16.sp,
+            textAlign = TextAlign.Center,
+            color = Color.Gray,
+
+            )
+        Spacer(
+            modifier = Modifier.height(32.dp)
+        )
+
+        Button(
+            onClick = {navController.navigate("registration_screen")},
+            colors = ButtonDefaults.buttonColors(containerColor =Color(0xFF6200EE)),
+            modifier = Modifier.size(218.dp,48.dp),
+            shape = RoundedCornerShape(4.dp)
+        ){ Text("Зарегистрироваться",color=Color.White, fontWeight = FontWeight( 700), fontSize = 16.sp,) }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {navController.navigate("entrace-screen")},
+            colors = ButtonDefaults.buttonColors(containerColor =Color.White)
+
+
+        )
+        { Text("Уже есть аккаунт?", color = Color(0xFF6200EE), fontWeight = FontWeight(700), fontSize = fontSize, lineHeight = lineHeight) }
+
     }
 }
