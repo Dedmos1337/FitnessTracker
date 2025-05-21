@@ -66,17 +66,22 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import kotlinx.coroutines.launch
+import ru.fefu.fitnesstracker.DataStore.AuthViewModel
 
 @Composable
-fun Registration(navController: NavController) {
+fun Registration(
+    viewModel: AuthViewModel,
+    onRegisterSuccess: () -> Unit,
+    navController: NavController
+) {
     var text = remember { mutableStateOf("") }
-    var name = remember {mutableStateOf("")  }
-    var password =remember { mutableStateOf("") }
+    var name = remember { mutableStateOf("") }
+    var password = remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     var confirmPassword = remember { mutableStateOf("") }
     var confirmPasswordVisible by remember { mutableStateOf(false) }
     var selectOption by remember { mutableStateOf("Мужской") }
-
+    var errorMessage by remember { mutableStateOf<String?>(null) }
 
     Column(
         modifier = Modifier
@@ -85,7 +90,6 @@ fun Registration(navController: NavController) {
     ) {
 
         Row(
-            horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
@@ -93,7 +97,7 @@ fun Registration(navController: NavController) {
                 contentDescription = "стрелка",
                 modifier = Modifier
                     .clickable { navController.popBackStack() }
-                    .size(16.dp, 16.dp)
+                    .size(16.dp)
             )
 
             Spacer(modifier = Modifier.width(16.dp))
@@ -106,9 +110,7 @@ fun Registration(navController: NavController) {
             )
         }
 
-
         Spacer(modifier = Modifier.height(32.dp))
-
 
         Column(
             modifier = Modifier
@@ -118,82 +120,54 @@ fun Registration(navController: NavController) {
             OutlinedTextField(
                 value = text.value,
                 onValueChange = { text.value = it },
-                textStyle = TextStyle(
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal,
-                    fontFamily = FontFamily.SansSerif
-                ),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF6200EE),
-                    unfocusedBorderColor = Color(0xFFCCCCCC)
-                ),
                 label = { Text("Логин") },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
+
             Spacer(modifier = Modifier.height(16.dp))
 
             OutlinedTextField(
-                name.value,
+                value = name.value,
                 onValueChange = { name.value = it },
-                textStyle = TextStyle(
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal,
-                    fontFamily = FontFamily.SansSerif
-                ),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF6200EE),
-                    unfocusedBorderColor = Color(0xFFCCCCCC)
-                ),
                 label = { Text("Имя или никнейм") },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
+
             Spacer(modifier = Modifier.height(16.dp))
 
             OutlinedTextField(
-                password.value,
-                onValueChange = {password.value= it},
+                value = password.value,
+                onValueChange = { password.value = it },
                 label = { Text("Пароль") },
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
-                    IconButton(onClick = {passwordVisible = !passwordVisible },
-                        modifier = Modifier.size(22.dp,15.dp))
-                    {
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
                         Image(
-                            painter = painterResource(
-                                id = if (passwordVisible)
-                                    R.drawable.eye
-                                else
-                                    R.drawable.eye
-                            ),
+                            painter = painterResource(id = R.drawable.eye),
                             contentDescription = if (passwordVisible) "Скрыть пароль" else "Показать пароль",
                             modifier = Modifier.size(20.dp)
                         )
-
                     }
                 },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
+
             Spacer(modifier = Modifier.height(16.dp))
-            OutlinedTextField(
-                confirmPassword.value,
-                onValueChange = {confirmPassword.value = it},
-                label = {Text("Повторите пароль")},
-                visualTransformation = if(confirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                trailingIcon = {
-                    IconButton(onClick = {confirmPasswordVisible=!confirmPasswordVisible},modifier = Modifier.size(22.dp,15.dp)) {
-                        Image(
-                            painter = painterResource(
-                                id = if (passwordVisible)
-                                    R.drawable.eye
-                                else
-                                    R.drawable.eye
-                            ),
-                            contentDescription = if (passwordVisible) "Скрыть пароль" else "Показать пароль",
-                            modifier = Modifier.size(20.dp)
 
+            OutlinedTextField(
+                value = confirmPassword.value,
+                onValueChange = { confirmPassword.value = it },
+                label = { Text("Повторите пароль") },
+                visualTransformation = if (confirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                trailingIcon = {
+                    IconButton(onClick = { confirmPasswordVisible = !confirmPasswordVisible }) {
+                        Image(
+                            painter = painterResource(id = R.drawable.eye),
+                            contentDescription = if (confirmPasswordVisible) "Скрыть пароль" else "Показать пароль",
+                            modifier = Modifier.size(20.dp)
                         )
                     }
                 },
@@ -201,81 +175,85 @@ fun Registration(navController: NavController) {
                 modifier = Modifier.fillMaxWidth()
             )
 
-//
-//            if(password != confirmPassword){
-//                Text(
-//                    text = "Пароли не совпадают",
-//                    color = Color.Red,
-//                    style = MaterialTheme.typography.bodySmall,
-//                    modifier = Modifier.padding(start = 8.dp)
-//                )
-//
-//            }
-//            else {
-//
-//                )
-//
-//            }
-            Spacer(
-                modifier = Modifier.height(24.dp)
-            )
-
+            Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text="Пол",
+                text = "Пол",
                 fontWeight = FontWeight(600),
                 fontSize = 20.sp,
-                fontFamily = FontFamily.SansSerif,
+                fontFamily = FontFamily.SansSerif
             )
+
             Spacer(modifier = Modifier.height(16.dp))
 
-            Column{
-                listOf("Мужской","Женский","Другой").forEach { option ->
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-
-                    ){
+            Column {
+                listOf("Мужской", "Женский", "Другой").forEach { option ->
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         RadioButton(
                             selected = (option == selectOption),
-                            onClick = {selectOption = option},
-                            colors = RadioButtonDefaults.colors(
-                                selectedColor = Color(0xFF6200EE)
-                            )
+                            onClick = { selectOption = option },
+                            colors = RadioButtonDefaults.colors(selectedColor = Color(0xFF6200EE))
                         )
                         Text(option)
                     }
                 }
-
             }
 
             Spacer(modifier = Modifier.height(33.dp))
 
             Button(
-                onClick = {},
+                onClick = {
+                    viewModel.register(
+                        username = text.value,
+                        name = name.value,
+                        password = password.value,
+                        repeatPassword = confirmPassword.value,
+                        gender = selectOption,
+                        onSuccess = {
+                            errorMessage = null
+                            onRegisterSuccess()
+                        },
+                        onError = { message ->
+                            errorMessage = message
+                        }
+                    )
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6200EE)),
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(4.dp)
-
             ) {
-                Text("Зарегистрироваться", color= Color.White, fontSize = 16.sp,
-                    fontWeight = FontWeight(700), fontFamily = FontFamily.SansSerif )
-
+                Text(
+                    "Зарегистрироваться",
+                    color = Color.White,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = FontFamily.SansSerif
+                )
             }
-            Spacer(modifier = Modifier.height(24.dp))
 
+            errorMessage?.let {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = it,
+                    color = Color.Red,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
 
             Text(
                 text = "Нажимая на кнопку, вы соглашаетесь \n" +
-                        "с политикой конфиденциальности и обработки персональных данных, а" +
-                        " также принимаете пользовательское соглашение",
+                        "с политикой конфиденциальности и обработки персональных данных, а " +
+                        "также принимаете пользовательское соглашение",
                 fontSize = 12.sp,
                 fontWeight = FontWeight(400),
                 fontFamily = FontFamily.SansSerif,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center
             )
-
-
         }
     }
 }
