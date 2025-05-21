@@ -73,59 +73,66 @@ fun MainScreen(navController: NavController) {
     val lineHeight = fontSize * 1.5f
 
     Column(
-        modifier = Modifier.fillMaxSize().background(Color.White),verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-
-    ){
+    ) {
         Image(
             painter = painterResource(id = R.drawable.welcomescreenimage),
             contentDescription = "велосипеды",
-            modifier = Modifier.size(379.dp,335.dp)
-
+            modifier = Modifier.size(379.dp, 335.dp)
         )
-        Spacer(
-            modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(32.dp))
 
         Text(
             text = "Пожалуй, лучший фитнес трекер в ДВФУ",
             fontSize = 24.sp,
-            fontWeight = FontWeight(weight = 700),
+            fontWeight = FontWeight(700),
             fontFamily = FontFamily.Serif,
             textAlign = TextAlign.Center,
             modifier = Modifier.width(376.dp)
         )
 
-
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text =  "Созданный студентами",
+            text = "Созданный студентами",
             fontWeight = FontWeight(400),
             fontSize = 16.sp,
             textAlign = TextAlign.Center,
             color = Color.Gray,
-
-            )
-        Spacer(
-            modifier = Modifier.height(32.dp)
         )
+        Spacer(modifier = Modifier.height(32.dp))
 
         Button(
-            onClick = {navController.navigate("registration_screen")},
-            colors = ButtonDefaults.buttonColors(containerColor =Color(0xFF6200EE)),
-            modifier = Modifier.size(218.dp,48.dp),
-            shape = RoundedCornerShape(4.dp)
-        ){ Text("Зарегистрироваться",color=Color.White, fontWeight = FontWeight( 700), fontSize = 16.sp,) }
+            onClick = { navController.navigate("registration_screen") },
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6200EE)),
+            modifier = Modifier.size(218.dp, 48.dp),
+            shape = androidx.compose.foundation.shape.RoundedCornerShape(4.dp)
+        ) {
+            Text(
+                "Зарегистрироваться",
+                color = Color.White,
+                fontWeight = FontWeight(700),
+                fontSize = 16.sp,
+            )
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = {navController.navigate("entrace-screen")},
-            colors = ButtonDefaults.buttonColors(containerColor =Color.White)
-
-
-        )
-        { Text("Уже есть аккаунт?", color = Color(0xFF6200EE), fontWeight = FontWeight(700), fontSize = fontSize, lineHeight = lineHeight) }
-
+            onClick = { navController.navigate("entrace-screen") },
+            colors = ButtonDefaults.buttonColors(containerColor = Color.White)
+        ) {
+            Text(
+                "Уже есть аккаунт?",
+                color = Color(0xFF6200EE),
+                fontWeight = FontWeight(700),
+                fontSize = fontSize,
+                lineHeight = lineHeight
+            )
+        }
     }
 }
