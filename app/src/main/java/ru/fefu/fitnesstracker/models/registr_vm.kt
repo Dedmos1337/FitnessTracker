@@ -1,4 +1,4 @@
-package ru.fefu.fitnesstracker
+package ru.fefu.fitnesstracker.models
 import android.os.Bundle
 import android.widget.Space
 import androidx.compose.foundation.layout.*
@@ -65,16 +65,15 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import kotlinx.coroutines.launch
-import ru.fefu.fitnesstracker.screens.FitnessApp
+import ru.fefu.fitnesstracker.screens.MainScreen
+import ru.fefu.fitnesstracker.screens.Registration
+import ru.fefu.fitnesstracker.screens.Entrace
+import ru.fefu.fitnesstracker.screens.Info_Activ
+import ru.fefu.fitnesstracker.screens.Activity
+import ru.fefu.fitnesstracker.components.MyActiv
+import ru.fefu.fitnesstracker.components.UsersActiv
+import ru.fefu.fitnesstracker.screens.Users_Activity
+import ru.fefu.fitnesstracker.screens.Info_Users_Activity
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            FitnessTrackerTheme {
-                FitnessApp()
-            }
-        }
-    }
-}
+
+

@@ -12,6 +12,7 @@ navigationRuntimeAndroid = "2.9.0-alpha07"
 navigationRuntimeDesktop = "2.9.0-alpha07"
 navigationCompose = "2.7.7"
 
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -35,4 +36,5 @@ androidx-navigation-runtime-desktop = { group = "androidx.navigation", name = "n
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version = "1.9.23" }
 
